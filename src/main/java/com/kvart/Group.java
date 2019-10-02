@@ -1,23 +1,14 @@
 package com.kvart;
 
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-
-import javax.persistence.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-@Entity
-@Table(name = "groups")
 public class Group {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private String id;
     private String name;
-
-    @ManyToMany
-    @LazyCollection(LazyCollectionOption.TRUE)
     private List<Student> students = new ArrayList<>();
 
     public Group() {
@@ -27,18 +18,29 @@ public class Group {
         this.name = name;
     }
 
-    public void addStudent (Student student) {
+    public Group(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Group(String id, String name, List<Student> students) {
+        this.id = id;
+        this.name = name;
+        this.students = students;
+    }
+
+    public void addStudent (Student student) throws SQLException {
         students.add(student);
         student.addGroupForClass(new Group(this.name));
         DataBases dataBases = new DataBases();
-        dataBases.addGroupStudent(new GroupStudent(this.id, student.getId()));
+        dataBases.addGroupStudent(new GroupStudent(generateId(), this.id, student.getId()));
     }
 
     public void addStudentForClass (Student student) {
         students.add(student);
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -57,5 +59,9 @@ public class Group {
                 ", name='" + name + '\'' +
                 ", students=" + students +
                 '}';
+    }
+
+    public static String generateId() {
+        return UUID.randomUUID().toString();
     }
 }

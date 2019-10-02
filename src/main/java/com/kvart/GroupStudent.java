@@ -1,31 +1,29 @@
 package com.kvart;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "groups_students")
 public class GroupStudent {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-
-    private int idGroup;
-    private int idStudent;
+    private String id;
+    private String id_group;
+    private String id_student;
 
     public GroupStudent() {
     }
 
-    public GroupStudent(int idGroup, int idStudent) {
-        this.idGroup = idGroup;
-        this.idStudent = idStudent;
+    public GroupStudent(String id, String id_group, String id_student) {
+        this.id = id;
+        this.id_group = id_group;
+        this.id_student = id_student;
     }
 
-    public int getIdGroup() {
-        return idGroup;
+    public String getId() {
+        return id;
     }
 
-    public int getIdStudent() {
-        return idStudent;
+    public String getId_group() {
+        return id_group;
+    }
+
+    public String getId_student() {
+        return id_student;
     }
 }

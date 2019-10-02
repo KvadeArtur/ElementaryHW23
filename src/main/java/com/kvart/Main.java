@@ -1,38 +1,45 @@
 package com.kvart;
 
+import java.sql.SQLException;
+import java.util.UUID;
+
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
 
         DataBases dataBases = new DataBases();
 
-        dataBases.removeAllStudent();
+        dataBases.removeAll();
 
-        dataBases.addGroup(new Group("Java"));
-        dataBases.addGroup(new Group("Cpp"));
-        dataBases.addGroup(new Group("Javascript"));
+        dataBases.addGroup(new Group(generateId(),"Java"));
+        dataBases.addGroup(new Group(generateId(),"Cpp"));
+        dataBases.addGroup(new Group(generateId(),"Javascript"));
 
-        dataBases.addStudent(new Student("Alex"));
-        dataBases.addStudent(new Student("Ivan"));
-        dataBases.addStudent(new Student("Nikolay"));
-        dataBases.addStudent(new Student("Sergey"));
-        dataBases.addStudent(new Student("Semen"));
+        dataBases.addStudent(new Student(generateId(),"Alex"));
+        dataBases.addStudent(new Student(generateId(),"Ivan"));
+        dataBases.addStudent(new Student(generateId(),"Nikolay"));
+        dataBases.addStudent(new Student(generateId(),"Sergey"));
+        dataBases.addStudent(new Student(generateId(),"Semen"));
 
-        dataBases.getGroup(1).addStudent(dataBases.getStudent("Alex"));
-        dataBases.getGroup(1).addStudent(dataBases.getStudent("Nikolay"));
-        dataBases.getGroup(1).addStudent(dataBases.getStudent("Semen"));
+        dataBases.getGroupName("Java").addStudent(dataBases.getStudentName("Alex"));
+        dataBases.getGroupName("Java").addStudent(dataBases.getStudentName("Nikolay"));
+        dataBases.getGroupName("Java").addStudent(dataBases.getStudentName("Semen"));
 
-        dataBases.getGroup(2).addStudent(dataBases.getStudent("Ivan"));
-        dataBases.getGroup(2).addStudent(dataBases.getStudent("Sergey"));
-        dataBases.getGroup(2).addStudent(dataBases.getStudent("Semen"));
+        dataBases.getGroupName("Cpp").addStudent(dataBases.getStudentName("Ivan"));
+        dataBases.getGroupName("Cpp").addStudent(dataBases.getStudentName("Sergey"));
+        dataBases.getGroupName("Cpp").addStudent(dataBases.getStudentName("Semen"));
 
-        dataBases.getGroup(3).addStudent(dataBases.getStudent("Alex"));
-        dataBases.getGroup(3).addStudent(dataBases.getStudent("Ivan"));
+        dataBases.getGroupName("Javascript").addStudent(dataBases.getStudentName("Alex"));
+        dataBases.getGroupName("Javascript").addStudent(dataBases.getStudentName("Ivan"));
 
-        dataBases.getStudent("Nikolay").addGroup(dataBases.getGroup(3));
-        dataBases.getStudent("Sergey").addGroup(dataBases.getGroup(1));
+        dataBases.getStudentName("Nikolay").addGroup(dataBases.getGroupName("Javascript"));
+        dataBases.getStudentName("Sergey").addGroup(dataBases.getGroupName("Java"));
 
-        System.out.println(dataBases.getGroupInStudents(dataBases.getStudent("Semen")));
-        System.out.println(dataBases.getStudentsInGroup(dataBases.getGroup(1)));
+        System.out.println(dataBases.getGroupInStudents(dataBases.getStudentName("Semen")));
+        System.out.println(dataBases.getStudentsInGroup(dataBases.getGroupName("Java")));
 
+    }
+
+    public static String generateId() {
+        return UUID.randomUUID().toString();
     }
 }
